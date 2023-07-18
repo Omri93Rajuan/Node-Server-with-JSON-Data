@@ -7,6 +7,7 @@ const chalk = require("chalk")
 
 
 app.use(express.json());
+
 app.use(router)
 
 
