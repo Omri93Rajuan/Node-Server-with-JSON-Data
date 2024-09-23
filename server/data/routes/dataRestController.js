@@ -1,57 +1,64 @@
-const express = require('express');
-const { getAllData, getData, createData,deleteData,updateData } = require('../models/dataAccessDataService');
-const router = express.Router();
-const { handleError } = require('../../utils/handleErrors');
+import express from "express";
+import {
+  getAllData,
+  getData,
+  createData,
+  deleteData,
+  updateData,
+} from "../models/dataAccessDataService.js";
 
-router.get('/', async (req, res) => {
-    try {
-        const cars = await getDatas();
-        return res.send(cars);
-    } catch (error) {
-        return handleError(res, error.status || 403, error.message);
-    }
+import { handleError } from "../../utils/handleErrors.js";
+
+const router = express.Router();
+
+router.get("/", async (req, res) => {
+  try {
+    const data = await getAllData();
+    return res.send(data);
+  } catch (error) {
+    return handleError(res, error.status || 403, error.message);
+  }
 });
 
 router.get("/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const card = await getAllData(parseInt(id));
-        return res.send(card);
-    } catch (error) {
-        return handleError(res, error.status || 500, error.message);
-    }
-});
-
-router.post('/', async (req, res) => {
-    try {
-        const newData = req.body;    
-        await createData(newData);
-        return res.status(201).send("Data created successfully");
-    } catch (error) {
-        return handleError(res, error.status || 500, error.message);
-    }
-});
-
-router.delete("/:id", async (req, res) => {
   try {
-      const { id } = req.params;
-      const deletedData = await deleteData(parseInt(id));
-      return res.send(deletedData);
+    const { id } = req.params;
+    const data = await getData(id);
+    return res.send(data);
   } catch (error) {
-      return handleError(res, error.status || 500, error.message);
+    return handleError(res, error.status || 500, error.message);
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const newData = req.body;
+    await createData(newData);
+    return res.status(201).send("Data created successfully");
+  } catch (error) {
+    return handleError(res, error.status || 500, error.message);
   }
 });
 
 router.patch("/:id", async (req, res) => {
   try {
-      const { id } = req.params;
-      const updatedData = req.body;
-      const editedData = await updateData(parseInt(id), updatedData);
-      return res.send(editedData);
+    const { id } = req.params;
+    const updatedData = req.body;
+    const editedData = await updateData(parseInt(id), updatedData);
+    return res.send(editedData);
   } catch (error) {
-      return handleError(res, error.status || 500, error.message);
+    return handleError(res, error.status || 500, error.message);
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedData = await deleteData(parseInt(id));
+    return res.send(deletedData);
+  } catch (error) {
+    return handleError(res, error.status || 500, error.message);
+  }
+});
 
-module.exports = router;
+export default router;

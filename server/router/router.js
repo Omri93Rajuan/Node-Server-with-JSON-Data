@@ -1,13 +1,13 @@
-const express =  require ("express")
-const router =  express.Router()
-const dataRestController = require("../data/routes/dataRestController")
-const { handleError } = require("../utils/handleErrors");
+import express from "express";
 
+import dataRestController from "../data/routes/dataRestController.js";
+import { handleError } from "../utils/handleErrors.js";
 
-router.use("/data",dataRestController)
+const router = express.Router();
+router.use("/data", dataRestController);
 
 router.use((req, res) => {
-    handleError(res, 404, "Page not found!");
-  });
+  handleError(res, 404, "Page not found!");
+});
 
-module.exports = router
+export default router;

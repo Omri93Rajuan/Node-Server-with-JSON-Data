@@ -1,9 +1,9 @@
-const express = require("express");
-const app = express();
-const router = require("./router/router");
-const { handleError } = require("./utils/handleErrors");
+import express from "express";
+import chalk from "chalk";
+import router from "./router/router.js";
+import {} from "./utils/handleErrors.js";
 
-const chalk = require("chalk");
+const app = express();
 
 app.use(express.json());
 
