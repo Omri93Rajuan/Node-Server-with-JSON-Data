@@ -1,6 +1,7 @@
 import express from "express";
 import chalk from "chalk";
 import router from "./router/router.js";
+import "dotenv/config";
 import {} from "./utils/handleErrors.js";
 
 const app = express();
@@ -13,8 +14,8 @@ app.use((err, req, res, next) => {
   handleError(res, 500, err.message);
 });
 
-const PORT = 8181;
-
-app.listen(PORT, () => {
-  console.log(chalk.blueBright("listening on: https://localhost:8181"));
+app.listen(process.env.PORT, () => {
+  console.log(
+    chalk.blueBright(`listening on: https://localhost:${process.env.PORT}`)
+  );
 });
