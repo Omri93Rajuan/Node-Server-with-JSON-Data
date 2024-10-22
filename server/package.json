@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon ."
+    "dev": "tsc && nodemon ."
   },
   "author": "Omri Rajuan",
   "license": "ISC",
