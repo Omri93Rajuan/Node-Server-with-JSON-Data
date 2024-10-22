@@ -18,3 +18,6 @@ node_modules/
 
 # Ignore MacOS system files
 .DS_Store
+
+# Ignore dist files
+/dist
