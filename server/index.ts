@@ -1,18 +1,15 @@
-import express from "express";
+import express, { Express } from 'express'
 import chalk from "chalk";
-import router from "./router/router.js";
+import router from "./router/router";
 import "dotenv/config";
-import {} from "./utils/handleErrors.js";
 
-const app = express();
+const app : Express = express();
 
 app.use(express.json());
 
 app.use(router);
 
-app.use((err, req, res, next) => {
-  handleError(res, 500, err.message);
-});
+
 
 app.listen(process.env.PORT, () => {
   console.log(
