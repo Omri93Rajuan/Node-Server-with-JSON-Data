@@ -11,8 +11,9 @@ app.use(router);
 
 
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 7070 , () => {
   console.log(
-    chalk.blueBright(`listening on: https://localhost:${process.env.PORT}`)
+    chalk.blueBright(`listening on: https://localhost:${process.env.PORT|| 7070}`)
   );
+  
 });
