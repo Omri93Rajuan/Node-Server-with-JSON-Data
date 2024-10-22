@@ -1,1 +1,14 @@
-[{"name":"Object 1","id":1},{"name":"Object 2","id":2},{"sasda":"bless","id":44,"name":"in god we trust"}]
+[
+  {
+    "name": "Object 2",
+    "id": 2
+  },
+  {
+    "sasda": "bless",
+    "id": 44,
+    "name": "in god we trust"
+  },
+  {
+    "name": "Add your name in the body"
+  }
+]
