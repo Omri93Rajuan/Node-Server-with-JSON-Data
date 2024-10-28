@@ -1,5 +1,6 @@
 import fs from "fs";
 import {User} from "../model/dataModel"
+import { v4 } from "uuid";
 
 const data: string = fs.readFileSync("./data.json", "utf-8");
 
@@ -32,7 +33,8 @@ const getData = async (id: number): Promise<User[]> => {
 const createData = async (newData: User): Promise<string> => {
   try {
     const currentData: User[] = await getAllData();
-    currentData.push(newData);
+    const userWithId = { id: v4(), ...newData }
+    currentData.push(userWithId);
     fs.writeFileSync("./data.json", JSON.stringify(currentData, null, 2));
     return Promise.resolve("Data created successfully");
   } catch (error) {
