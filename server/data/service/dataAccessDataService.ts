@@ -1,6 +1,6 @@
 import fs from "fs";
-import {User} from "../model/dataModel"
-import { v4 } from "uuid";
+import User from "../model/dataModel"
+import signInDto from "../model/dataDto";
 
 const data: string = fs.readFileSync("./data.json", "utf-8");
 
@@ -15,10 +15,12 @@ const getAllData = (): User[] => {
 };
 
 // פונקציה לקבלת נתון ספציפי לפי מזהה (id)
-const getData = async (id: number): Promise<User[]> => {
+const getData = async (id: string): Promise<User[]> => {
   try {
     const data: User[] = await getAllData(); // קריאה לפונקציה getAllData() על מנת לקבל את הנתונים מהקובץ JSON
     const newData = data.filter((item) => item.id === id);
+    console.log(newData);
+    
     if (!newData.length) {
       throw new Error("Could not find this card in the database");
     }
@@ -30,11 +32,13 @@ const getData = async (id: number): Promise<User[]> => {
 };
 
 // פונקציה ליצירת נתון חדש
-const createData = async (newData: User): Promise<string> => {
+const createData = async (newData: signInDto): Promise<string> => {
   try {
+    const {username,password} = newData
+    const userData = new User(username)  
+    await userData.hashPassword!(password) 
     const currentData: User[] = await getAllData();
-    const userWithId = { id: v4(), ...newData }
-    currentData.push(userWithId);
+    currentData.push(userData);
     fs.writeFileSync("./data.json", JSON.stringify(currentData, null, 2));
     return Promise.resolve("Data created successfully");
   } catch (error) {
@@ -42,8 +46,9 @@ const createData = async (newData: User): Promise<string> => {
   }
 };
 
+
 // פונקציה למחיקת נתון לפי מזהה
-const deleteData = async (id: number): Promise<User> => {
+const deleteData = async (id: string): Promise<User> => {
   try {
     const currentData: User[] = await getAllData();
     const index = currentData.findIndex((item) => item.id === id);
@@ -60,13 +65,12 @@ const deleteData = async (id: number): Promise<User> => {
 };
 
 // פונקציה לעדכון נתון לפי מזהה
-const updateData = async (id: number, updatedData: Partial<User>): Promise<User> => {
+const updateData = async (id: string, updatedData: Partial<User>): Promise<User> => {
   try {
     const currentData: User[] = await getAllData();
     const index = currentData.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new Error("Could not find this card in the database");
-    }
+    if (index === -1) throw new Error("Could not find this card in the database");
+
     currentData[index] = { ...currentData[index], ...updatedData };
     fs.writeFileSync("./data.json", JSON.stringify(currentData, null, 2));
     return Promise.resolve(currentData[index]);
