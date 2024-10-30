@@ -1,6 +1,7 @@
 import fs from "fs";
 import User from "../model/dataModel"
 import signInDto from "../model/dataDto";
+
 const data: string = fs.readFileSync("./data.json", "utf-8");
 
 // פונקציה לקריאת כל הנתונים מהקובץ JSON
@@ -69,7 +70,7 @@ const updateData = async (id: string, updatedData: Partial<User>): Promise<User>
     const currentData: User[] = await getAllData();
     const index = currentData.findIndex((item) => item.id === id);
     if (index === -1) throw new Error("Could not find this card in the database");
-    
+
     currentData[index] = { ...currentData[index], ...updatedData };
     fs.writeFileSync("./data.json", JSON.stringify(currentData, null, 2));
     return Promise.resolve(currentData[index]);

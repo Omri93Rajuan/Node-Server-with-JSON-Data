@@ -1,9 +1,10 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import  User  from '../data/model/dataModel';
+import signInDto from '../data/model/dataDto';
 
 const key: string = process.env.JWT_SECRET || 'default_secret';
 
-const generateAuthToken = (user: User): string => {
+const generateAuthToken = (user: signInDto): string => {
   const { id, isAdmin } = user;
   const token = jwt.sign({ id, isAdmin }, key);
   return token;
