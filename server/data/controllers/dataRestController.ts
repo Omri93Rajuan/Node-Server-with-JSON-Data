@@ -25,7 +25,7 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
 router.get("/:id", async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const data = await getData(parseInt(id));
+    const data = await getData(id);
      res.send(data);
   } catch (error: any) {
      handleError(res, error.status || 500, error.message);
@@ -48,7 +48,7 @@ router.patch("/:id", async (req: Request, res: Response) : Promise<void> => {
   try {
     const { id } = req.params;
     const updatedData = req.body;
-    const editedData = await updateData(parseInt(id), updatedData);
+    const editedData = await updateData(id, updatedData);
      res.send(editedData);
   } catch (error: any) {
      handleError(res, error.status || 500, error.message);
@@ -59,7 +59,7 @@ router.patch("/:id", async (req: Request, res: Response) : Promise<void> => {
 router.delete("/:id", async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const deletedData = await deleteData(parseInt(id));
+    const deletedData = await deleteData(id);
      res.send(deletedData);
   } catch (error: any) {
      handleError(res, error.status || 500, error.message);
