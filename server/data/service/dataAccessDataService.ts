@@ -1,6 +1,5 @@
 import fs from "fs";
-import {User} from "../model/dataModel"
-import { v4 } from "uuid";
+import User from "../model/dataModel"
 
 const data: string = fs.readFileSync("./data.json", "utf-8");
 
@@ -15,7 +14,7 @@ const getAllData = (): User[] => {
 };
 
 // פונקציה לקבלת נתון ספציפי לפי מזהה (id)
-const getData = async (id: number): Promise<User[]> => {
+const getData = async (id: string): Promise<User[]> => {
   try {
     const data: User[] = await getAllData(); // קריאה לפונקציה getAllData() על מנת לקבל את הנתונים מהקובץ JSON
     const newData = data.filter((item) => item.id === id);
@@ -32,9 +31,9 @@ const getData = async (id: number): Promise<User[]> => {
 // פונקציה ליצירת נתון חדש
 const createData = async (newData: User): Promise<string> => {
   try {
+    const userData = new User(newData.username)    
     const currentData: User[] = await getAllData();
-    const userWithId = { id: v4(), ...newData }
-    currentData.push(userWithId);
+    currentData.push(userData);
     fs.writeFileSync("./data.json", JSON.stringify(currentData, null, 2));
     return Promise.resolve("Data created successfully");
   } catch (error) {
@@ -43,7 +42,7 @@ const createData = async (newData: User): Promise<string> => {
 };
 
 // פונקציה למחיקת נתון לפי מזהה
-const deleteData = async (id: number): Promise<User> => {
+const deleteData = async (id: string): Promise<User> => {
   try {
     const currentData: User[] = await getAllData();
     const index = currentData.findIndex((item) => item.id === id);
@@ -60,7 +59,7 @@ const deleteData = async (id: number): Promise<User> => {
 };
 
 // פונקציה לעדכון נתון לפי מזהה
-const updateData = async (id: number, updatedData: Partial<User>): Promise<User> => {
+const updateData = async (id: string, updatedData: Partial<User>): Promise<User> => {
   try {
     const currentData: User[] = await getAllData();
     const index = currentData.findIndex((item) => item.id === id);
