@@ -44,15 +44,14 @@ const loginUser = async ({ username, password }: signInDto, res: Response) => {
     }
 };
 
-// פונקציה למחיקת הקוקי בעת התנתקות
 const logoutUser = (res: Response) => {
     res.clearCookie('auth_token', {
         ...cookieConfig,
         maxAge: 0
     });
-    return Promise.resolve({
+    return {
         message: "Logout successful",
-    });
+    };
 };
 
 // // פונקציית עזר לבדיקת תוקף הטוקן
