@@ -12,7 +12,7 @@ interface LoginRequest extends Request {
   };
 }
 
-router.post("/", async (req: LoginRequest, res: Response, next: NextFunction): Promise<void> => {
+router.post("/login", async (req: LoginRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { username, password } = req.body;
     const user: any = await loginUser({ username, password }, res);
@@ -27,7 +27,6 @@ router.post("/", async (req: LoginRequest, res: Response, next: NextFunction): P
 
 router.post("/logout", async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // קריאה לפונקציית ההתנתקות הקיימת
     await logoutUser(res);
     res.json({ message: "התנתקת בהצלחה" });
   } catch (error) {

@@ -5,7 +5,7 @@ import {
   createData,
   deleteData,
   updateData,
-} from "../service/dataAccessDataService";
+} from "../service/dataService";
 
 import { handleError } from "../../utils/handleErrors";
 

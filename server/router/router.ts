@@ -1,5 +1,5 @@
 import express, {IRouter } from "express";
-import dataRestController from "../data/controllers/dataRestController";
+import dataRestController from "../data/controllers/dataController";
 import authRestController from "../data/controllers/authController";
 
 import { handleError } from "../utils/handleErrors";
@@ -7,7 +7,7 @@ import { handleError } from "../utils/handleErrors";
 const router: IRouter = express.Router();
 
 router.use("/data", dataRestController);
-router.use("/login", authRestController);
+router.use("/auth", authRestController);
 
 router.use((req, res) => {
   handleError(res, 404, "Page not found!");

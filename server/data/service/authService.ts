@@ -30,11 +30,7 @@ const loginUser = async ({ username, password }: signInDto, res: Response) => {
 
         // יצירת הטוקן
         const token = generateAuthToken(user);
-
-        // שמירת הטוקן בקוקי
         res.cookie('auth_token', token, cookieConfig);
-
-        // אופציונלי: שליחת מידע נוסף בתגובה
         return Promise.resolve({
             message: "Login successful",
             user: {
