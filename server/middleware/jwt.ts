@@ -16,7 +16,7 @@ const generateAuthToken = (user: { id: string; isAdmin: boolean }): string => {
     { id: user.id, isAdmin: user.isAdmin }, 
     SECRET_KEY, 
     { 
-      expiresIn: '1h'     // Expires in 1 hour
+      expiresIn: '1h'
     }
   );
 };
@@ -45,7 +45,7 @@ const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     // Try to verify the token
     const decoded = jwt.verify(token, SECRET_KEY, {
-      algorithms: ['HS256'] // Explicitly specify algorithm
+      algorithms: ['HS256']
     }) as TokenPayload;
 
     // Add decoded user to request
@@ -71,7 +71,6 @@ const verifyUser = (req: Request, res: Response, next: NextFunction) => {
       });
     }
 
-    // General error
     return res.status(500).json({ 
       status: 'error', 
       message: 'Internal error during authentication.' 
@@ -79,4 +78,23 @@ const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { generateAuthToken, verifyUser };
+// Admin check middleware
+const verifyAdmin = (req: Request, res: Response, next: NextFunction) => {
+  // First verify that the user is authenticated
+  verifyUser(req, res, () => {
+    // Check if user exists and is admin
+    const user = (req as any).user;
+    
+    if (!user || !user.isAdmin) {
+      return res.status(403).json({
+        status: 'error',
+        message: 'Access denied. Admin privileges required.'
+      });
+    }
+
+    // User is admin, proceed
+    next();
+  });
+};
+
+export { generateAuthToken, verifyUser, verifyAdmin };
